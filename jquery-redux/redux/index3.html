@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>redux-index3-devtools.html</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://unpkg.com/redux@4.1.2/dist/redux.js"></script>
+    <script src="https://unpkg.com/redux-devtools-extension"></script>
+  </head>
+  <body>
+    <script>
+      const initialState = { count: 0 };
+      //----순수함수일때(불변성(O))) --> 상태변경의 추적 가능
+      const countReducer = function (state = initialState, action) {
+        switch (action.type) {
+          case "INCREMENT":
+            return { ...state, count: state.count + action.payload.num };
+          case "DECREMENT":
+            return { ...state, count: state.count - action.payload.num };
+          default:
+            return state;
+        }
+      };
+      //----순수함수가 아닐때(불변성(X)) --> 상태변경의 추적이 불가능함. 이렇게 작성하면 안됨.
+      // const countReducer = function (state = initialState, action) {
+      //   switch (action.type) {
+      //     case "INCREMENT":
+      //       state.count += action.payload.num;
+      //       return state;
+      //     case "DECREMENT":
+      //       state.count -= action.payload.num;
+      //       return state;
+      //     default:
+      //       return state;
+      //   }
+      // };
+      const CountActionCreator = {};
+      CountActionCreator.increment = function (num) {
+        return { type: "INCREMENT", payload: { num: num } };
+      };
+      CountActionCreator.decrement = function (num) {
+        return { type: "DECREMENT", payload: { num: num } };
+      };
+
+      const store = Redux.createStore(countReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+    </script>
+    <div id="MainComponent" style="border: solid 1px gray; padding: 10px">
+      num : <input id="num" type="text" value="2" /><br />
+      <button id="inc">증가</button>
+      <button id="dec">감소</button>
+      <script>
+        $("#inc").click(function () {
+          var num = parseInt($("#num").val(), 10);
+          store.dispatch(CountActionCreator.increment(num));
+        });
+        $("#dec").click(function () {
+          var num = parseInt($("#num").val(), 10);
+          store.dispatch(CountActionCreator.decrement(num));
+        });
+      </script>
+    </div>
+    <div id="CountComponent1" style="border: solid 1px gray; padding: 10px">
+      Count :
+      <span id="count1"></span>
+      <script>
+        $("#count1").html(store.getState().count);
+        store.subscribe(() => {
+          $("#count1").html(store.getState().count);
+        });
+      </script>
+    </div>
+    <div id="CountComponent2" style="border: solid 1px gray; padding: 10px">
+      카운트 : <span id="count2"></span>
+      <script>
+        $("#count2").html(store.getState().count);
+        store.subscribe(() => {
+          $("#count2").html(store.getState().count);
+        });
+      </script>
+    </div>
+    <div id="CountComponent3" style="border: solid 1px gray; padding: 10px">
+      カウント : <span id="count3"></span>
+      <script>
+        $("#count3").html(store.getState().count);
+        store.subscribe(() => {
+          $("#count3").html(store.getState().count);
+        });
+      </script>
+    </div>
+  </body>
+</html>

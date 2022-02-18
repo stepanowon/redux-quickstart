@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>no-redux-index1.html</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+  </head>
+  <body>
+    <div id="MainComponent" style="border: solid 1px gray; padding: 10px">
+      num : <input id="num" type="text" value="2" /><br />
+      <button id="inc">증가</button>
+      <button id="dec">감소</button>
+      <script>
+        var state = { count: 0 };
+        $("#inc").click(function () {
+          var num = parseInt($("#num").val(), 10);
+          state.count += num;
+          printComponent1();
+          printComponent2();
+        });
+        $("#dec").click(function () {
+          var num = parseInt($("#num").val(), 10);
+          state.count -= num;
+          printComponent1();
+          printComponent2();
+        });
+      </script>
+    </div>
+    <div id="CountComponent1" style="border: solid 1px gray; padding: 10px">
+      Count :
+      <span id="count1"></span>
+      <script>
+        function printComponent1() {
+          $("#count1").html(state.count);
+        }
+        printComponent1();
+      </script>
+    </div>
+    <div id="CountComponent2" style="border: solid 1px gray; padding: 10px">
+      카운트 : <span id="count2"></span>
+      <script>
+        function printComponent2() {
+          $("#count2").html(state.count);
+        }
+        printComponent2();
+      </script>
+    </div>
+  </body>
+</html>
