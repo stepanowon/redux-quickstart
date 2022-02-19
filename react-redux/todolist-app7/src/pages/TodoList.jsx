@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import TodoItem from "./TodoItem";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TodoActionCreator from "../redux/TodoActionCreator";
 
 const TodoList = (props) => {
@@ -32,18 +32,18 @@ TodoList.propTypes = {
   callbacks: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  states: {
-    todolist: state.todos.todolist,
-  },
-});
+const TodoListContainer = () => {
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch) => ({
-  callbacks: {
-    deleteTodo: (id) => dispatch(TodoActionCreator.deleteTodo(id)),
-    toggleDone: (id) => dispatch(TodoActionCreator.toggleDone(id)),
-  },
-});
-
-const TodoListContainer = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+  var propsObject = {
+    states: {
+      todolist: useSelector((state) => state.todos.todolist),
+    },
+    callbacks: {
+      deleteTodo: (id) => dispatch(TodoActionCreator.deleteTodo(id)),
+      toggleDone: (id) => dispatch(TodoActionCreator.toggleDone(id)),
+    },
+  };
+  return <TodoList {...propsObject} />;
+};
 export default TodoListContainer;

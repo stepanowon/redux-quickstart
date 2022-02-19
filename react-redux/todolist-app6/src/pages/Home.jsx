@@ -4,22 +4,28 @@ import PropTypes from "prop-types";
 import TimeActionCreator from "../redux/TimeActionCreator";
 import { connect } from "react-redux";
 
-const Home = ({ currentTime, changeTime }) => {
+const Home = ({ currentTime, changeTime, isChanging }) => {
   return (
     <div className="card card-body">
       <h2>Home</h2>
-      <MyTime currentTime={currentTime} changeTime={changeTime} />
+      <hr />
+      {isChanging ? <h4>시간 변경중</h4> : <MyTime currentTime={currentTime} changeTime={changeTime} />}
     </div>
   );
 };
 Home.propTypes = {
   currentTime: PropTypes.object.isRequired,
+  isChanging: PropTypes.bool.isRequired,
   changeTime: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({ currentTime: state.home.currentTime });
+const mapStateToProps = (state) => ({
+  currentTime: state.home.currentTime,
+  isChanging: state.home.isChanging,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  changeTime: () => dispatch(TimeActionCreator.changeTime()),
+  changeTime: () => dispatch(TimeActionCreator.changeTimeRequest()),
 });
 
 const HomeContainer = connect(mapStateToProps, mapDispatchToProps)(Home);
