@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <nav className="navbar navbar-expand-md bg-dark navbar-dark">
-      <div class="container-fluid">
+      <div className="container-fluid">
         <span className="navbar-brand">TodoList App</span>
         <button className="navbar-toggler" type="button" onClick={() => setIsNavShow(!isNavShow)}>
           <span className="navbar-toggler-icon"></span>
